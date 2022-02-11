@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sections & Sub Sections</title>
+</head>
+
+<body>
+    <h3>A simple App to create and show hierarchical data such as Sections & Sub Sections</h3>
+<div style="border: 1px solid black;">
+    {% load mptt_tags %}
+    <ul>
+        {% recursetree sections %}
+        <li>
+            {{ node.name }}
+            {% if not node.is_leaf_node %}
+            <ul class="children">
+                {{ children }}
+            </ul>
+            {% endif %}
+        </li>
+        {% endrecursetree %}
+    </ul>
+</div>
+    <form action="" method="post">
+        {% csrf_token %}
+        <select name="parents" id="">Select the Parent Section
+        <option disabled selected value> -- select an option -- </option>
+        {% for section in sections %}
+        <option value="{{ section.name }}">{{ section.name }}</option>
+        {% endfor %}
+    </select>
+        <input type="text" name="section_name" id="">
+        <button type="submit">Add</button>
+    </form>
+</body>
+
+</html>
